@@ -451,6 +451,25 @@ impl<'a> SimConnect<'a> {
         Ok(())
     }
 
+    pub fn ai_create_simulated_object(
+        &mut self,
+        container_title: &str,
+        init_position: sys::SIMCONNECT_DATA_INITPOSITION,
+        request_id: sys::SIMCONNECT_DATA_REQUEST_ID,
+    )  -> Result<()> {{
+        let container_title = std::ffi::CString::new(container_title).unwrap();
+
+        unsafe {
+            map_err(sys::SimConnect_AICreateSimulatedObject(
+                self.handle,
+                container_title.as_ptr(),
+                init_position,
+                request_id,
+            ))?;
+        }
+        Ok(())
+    }
+
     pub fn ai_remove_object(
         &mut self,
         object_id: sys::SIMCONNECT_OBJECT_ID,
